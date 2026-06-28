@@ -14,7 +14,7 @@ function Footer() {
               </div>
               <div>
                 <p className="text-sm text-gray-600">
-                  &copy; Copyright 2023. All Rights Reserved by DevUI.
+                  &copy; Copyright {new Date().getFullYear()}. All rights reserved by hellosamyak.
                 </p>
               </div>
             </div>
