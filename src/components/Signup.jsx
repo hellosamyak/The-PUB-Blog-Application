@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { login } from "../store/authSlice";
 import { Button, Input, Logo } from "./index";

@@ -1,4 +1,4 @@
-import { useId, forwardRef } from "react";
+import React, { useId, forwardRef } from "react";
 
 function Select({ options, label, className, ...props }, ref) {
   const id = useId();
