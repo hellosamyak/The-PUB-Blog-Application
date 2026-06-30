@@ -5,7 +5,7 @@ import { useParams, useNavigate } from 'react-router'
 
 function EditPost() {
     const [post, setPost] = useState(null)
-    const slug = useParams()
+    const { slug } = useParams()
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -30,4 +30,4 @@ function EditPost() {
         : null
 }
 
-export default EditPost
+export default EditPost;

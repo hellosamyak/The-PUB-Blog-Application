@@ -17,41 +17,38 @@ function PostForm({ post }) {
         });
 
     const navigate = useNavigate();
-    const userData = useSelector((state) => state.user.userData);
+    const userData = useSelector((state) => state.auth.userData);
 
     const submit = async (data) => {
+        const file = data.image?.[0]
+            ? await appwriteService.uploadFile(data.image[0])
+            : null;
+
+        if (file && post?.featuredImage) {
+            await appwriteService.deleteFile(post.featuredImage);
+        }
+
+        const featuredImage = file ? file.$id : post?.featuredImage;
+
         if (post) {
-            const file = data.image[0]
-                ? appwriteService.uploadFile(data.image[0])
-                : null;
-
-            if (file) {
-                appwriteService.deleteFile(post.featuredImage);
-            }
-
             const dbPost = await appwriteService.updatePost(post.$id, {
                 ...data,
-                featuredImage: file ? file.$id : undefined,
+                featuredImage,
             });
 
             if (dbPost) {
                 navigate(`/post/${dbPost.$id}`);
-            } else {
-                const file = await appwriteService.uploadFile(data.image[0]);
+            }
+        } else {
+            // console.log("Submitting with userId:", userData?.$id);
+            const dbPost = await appwriteService.createPost({
+                ...data,
+                featuredImage,
+                userId: userData.$id,
+            });
 
-                if (file) {
-                    const fileId = file.$id;
-                    data.featuredImage = fileId;
-
-                    const dbPost = await appwriteService.createPost({
-                        ...data,
-                        userId: userData.$id,
-                    });
-
-                    if (dbPost) {
-                        navigate(`/post/${dbPost.$id}`);
-                    }
-                }
+            if (dbPost) {
+                navigate(`/post/${dbPost.$id}`);
             }
         }
     };
@@ -61,8 +58,9 @@ function PostForm({ post }) {
             return value
                 .trim()
                 .toLowerCase()
-                .replace(/^[a-z0-9]+/g, "-")
-                .replace(/\s/g, "-");
+                .replace(/[^a-zA-Z\d\s]+/g, "-")
+                .replace(/\s/g, "-")
+                .replace(/-+/g, "_")
 
         return "";
     }, []);

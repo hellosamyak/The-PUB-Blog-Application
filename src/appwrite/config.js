@@ -18,7 +18,7 @@ export class DBService {
     try {
       return await this.databases.createRow({
         databaseId: conf.appwriteDatabaseId,
-        tableId: conf.appwriteCollectionId,
+        tableId: conf.appwriteTableId,
         rowId: slug,
         data: { title, content, featuredImage, status, userId },
       });
@@ -31,7 +31,7 @@ export class DBService {
     try {
       return await this.databases.updateRow({
         databaseId: conf.appwriteDatabaseId,
-        tableId: conf.appwriteCollectionId,
+        tableId: conf.appwriteTableId,
         rowId: slug,
         data: { title, content, featuredImage, status },
       });
@@ -44,7 +44,7 @@ export class DBService {
     try {
       await this.databases.deleteRow({
         databaseId: conf.appwriteDatabaseId,
-        tableId: conf.appwriteCollectionId,
+        tableId: conf.appwriteTableId,
         rowId: slug,
       });
       return true;
@@ -58,7 +58,7 @@ export class DBService {
     try {
       return await this.databases.getRow({
         databaseId: conf.appwriteDatabaseId,
-        tableId: conf.appwriteCollectionId,
+        tableId: conf.appwriteTableId,
         rowId: slug,
       });
     } catch (error) {
@@ -71,7 +71,7 @@ export class DBService {
     try {
       return await this.databases.listRows({
         databaseId: conf.appwriteDatabaseId,
-        tableId: conf.appwriteCollectionId,
+        tableId: conf.appwriteTableId,
         queries,
       });
     } catch (error) {
@@ -109,7 +109,7 @@ export class DBService {
   }
 
   getFilePreview(fileID) {
-    return this.bucket.getFilePreview({
+    return this.bucket.getFileView({
       bucketId: conf.appwriteBucketId,
       fileId: fileID,
     });
