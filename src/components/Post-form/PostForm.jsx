@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Input, Select, RTE } from "../index";
 import appwriteService from "../../appwrite/config";
@@ -78,8 +78,8 @@ function PostForm({ post }) {
     }, [watch, slugTransform, setValue]);
 
     return (
-        <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
-            <div className="w-2/3 px-2">
+        <form onSubmit={handleSubmit(submit)} className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[minmax(0,1.6fr)_minmax(320px,0.9fr)]">
+            <div className="rounded-4xl border border-white/70 bg-white/80 p-5 shadow-[0_20px_60px_rgba(15,23,42,0.08)] backdrop-blur-sm sm:p-8 dark:border-slate-800 dark:bg-slate-900/85 dark:shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
                 <Input
                     label="Title :"
                     placeholder="Title"
@@ -104,7 +104,7 @@ function PostForm({ post }) {
                     defaultValue={getValues("content")}
                 />
             </div>
-            <div className="w-1/3 px-2">
+            <div className="rounded-4xl border border-white/70 bg-white/80 p-5 shadow-[0_20px_60px_rgba(15,23,42,0.08)] backdrop-blur-sm sm:p-8 dark:border-slate-800 dark:bg-slate-900/85 dark:shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
                 <Input
                     label="Featured Image :"
                     type="file"
@@ -113,11 +113,11 @@ function PostForm({ post }) {
                     {...register("image", { required: !post })}
                 />
                 {post && (
-                    <div className="w-full mb-4">
+                    <div className="mb-4 w-full overflow-hidden rounded-3xl border border-slate-200 dark:border-slate-700">
                         <img
                             src={appwriteService.getFilePreview(post.featuredImage)}
                             alt={post.title}
-                            className="rounded-lg"
+                            className="w-full object-cover"
                         />
                     </div>
                 )}
@@ -129,7 +129,7 @@ function PostForm({ post }) {
                 />
                 <Button
                     type="submit"
-                    bgColor={post ? "bg-green-500" : undefined}
+                    bgColor={post ? "bg-emerald-600" : undefined}
                     className="w-full"
                 >
                     {post ? "Update" : "Submit"}

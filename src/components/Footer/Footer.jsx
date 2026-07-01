@@ -1,138 +1,34 @@
-import React from "react";
 import { Link } from "react-router";
 import Logo from "../Logo";
 
 function Footer() {
   return (
-    <section className="relative overflow-hidden py-10 bg-gray-400 border border-t-2 border-t-black">
-      <div className="relative z-10 mx-auto max-w-7xl px-4">
-        <div className="-m-6 flex flex-wrap">
-          <div className="w-full p-6 md:w-1/2 lg:w-5/12">
-            <div className="flex h-full flex-col justify-between">
-              <div className="mb-4 inline-flex items-center">
-                <Logo width="100px" />
-              </div>
-              <div>
-                <p className="text-sm text-gray-600">
-                  &copy; Copyright {new Date().getFullYear()}. All rights reserved by hellosamyak.
-                </p>
-              </div>
+    <section className="relative mt-16 overflow-hidden border-t border-white/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.55),rgba(255,248,236,0.95))] py-8 sm:py-10 dark:border-slate-800 dark:bg-[linear-gradient(180deg,rgba(2,6,23,0.95),rgba(15,23,42,0.98))]">
+      <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="grid gap-8 md:grid-cols-[1.2fr_0.8fr] md:items-start">
+          <div>
+            <div className="mb-4 inline-flex items-center">
+              <Logo width="100px" />
             </div>
+            <p className="max-w-md text-sm leading-7 text-slate-600 dark:text-slate-300">
+              A modern publishing surface for writing, reading, and managing stories with a clean editorial feel.
+            </p>
+            <p className="mt-5 text-xs font-medium uppercase tracking-[0.28em] text-slate-500 dark:text-slate-400">
+              &copy; Copyright {new Date().getFullYear()}. All rights reserved by <a className="cursor-pointer text-slate-800 transition hover:text-black dark:text-slate-200 dark:hover:text-white" href="https://github.com/hellosamyak">hellosamyak</a>
+            </p>
           </div>
-          <div className="w-full p-6 md:w-1/2 lg:w-2/12">
-            <div className="h-full">
-              <h3 className="tracking-px mb-9  text-xs font-semibold uppercase text-gray-500">
-                Company
-              </h3>
-              <ul>
-                <li className="mb-4">
-                  <Link
-                    className=" text-base font-medium text-gray-900 hover:text-gray-700"
-                    to="/"
-                  >
-                    Features
-                  </Link>
-                </li>
-                <li className="mb-4">
-                  <Link
-                    className=" text-base font-medium text-gray-900 hover:text-gray-700"
-                    to="/"
-                  >
-                    Pricing
-                  </Link>
-                </li>
-                <li className="mb-4">
-                  <Link
-                    className=" text-base font-medium text-gray-900 hover:text-gray-700"
-                    to="/"
-                  >
-                    Affiliate Program
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    className=" text-base font-medium text-gray-900 hover:text-gray-700"
-                    to="/"
-                  >
-                    Press Kit
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="w-full p-6 md:w-1/2 lg:w-2/12">
-            <div className="h-full">
-              <h3 className="tracking-px mb-9  text-xs font-semibold uppercase text-gray-500">
-                Support
-              </h3>
-              <ul>
-                <li className="mb-4">
-                  <Link
-                    className=" text-base font-medium text-gray-900 hover:text-gray-700"
-                    to="/"
-                  >
-                    Account
-                  </Link>
-                </li>
-                <li className="mb-4">
-                  <Link
-                    className=" text-base font-medium text-gray-900 hover:text-gray-700"
-                    to="/"
-                  >
-                    Help
-                  </Link>
-                </li>
-                <li className="mb-4">
-                  <Link
-                    className=" text-base font-medium text-gray-900 hover:text-gray-700"
-                    to="/"
-                  >
-                    Contact Us
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    className=" text-base font-medium text-gray-900 hover:text-gray-700"
-                    to="/"
-                  >
-                    Customer Support
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="w-full p-6 md:w-1/2 lg:w-3/12">
-            <div className="h-full">
-              <h3 className="tracking-px mb-9  text-xs font-semibold uppercase text-gray-500">
-                Legals
-              </h3>
-              <ul>
-                <li className="mb-4">
-                  <Link
-                    className=" text-base font-medium text-gray-900 hover:text-gray-700"
-                    to="/"
-                  >
-                    Terms &amp; Conditions
-                  </Link>
-                </li>
-                <li className="mb-4">
-                  <Link
-                    className=" text-base font-medium text-gray-900 hover:text-gray-700"
-                    to="/"
-                  >
-                    Privacy Policy
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    className=" text-base font-medium text-gray-900 hover:text-gray-700"
-                    to="/"
-                  >
-                    Licensing
-                  </Link>
-                </li>
-              </ul>
-            </div>
+          <div>
+            <h3 className="mb-4 text-xs font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-400">
+              Quick Links
+            </h3>
+            <ul className="flex flex-wrap gap-x-5 gap-y-3">
+              <li><Link className="text-sm font-medium text-slate-800 transition hover:text-amber-700 dark:text-slate-200 dark:hover:text-amber-300" to="/">Home</Link></li>
+              <li><Link className="text-sm font-medium text-slate-800 transition hover:text-amber-700 dark:text-slate-200 dark:hover:text-amber-300" to="/login">Login</Link></li>
+              <li><Link className="text-sm font-medium text-slate-800 transition hover:text-amber-700 dark:text-slate-200 dark:hover:text-amber-300" to="/signup">Sign up</Link></li>
+            </ul>
+            <p className="mt-4 text-sm leading-7 text-slate-600 dark:text-slate-300">
+              A small editorial footer, kept lean so the page feels calmer and easier to scan.
+            </p>
           </div>
         </div>
       </div>

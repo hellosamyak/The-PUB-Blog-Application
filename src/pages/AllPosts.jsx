@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Container, PostCard } from '../components'
 import appwriteService from '../appwrite/config'
 
@@ -12,16 +12,14 @@ function AllPosts() {
         })
     }, [])
     return (
-        <div className='w-full py-8'>
+        <div className='w-full py-10 sm:py-14'>
             <Container>
-                <div className='flex flex-wrap'>
-                    {
-                        posts.map((post) => (
-                            <div key={post.$id} className='p-2 w-1/4'>
-                                <PostCard post={post} />
-                            </div>
-                        ))
-                    }
+                <div className='grid gap-6 sm:grid-cols-2 xl:grid-cols-4'>
+                    {posts.map((post) => (
+                        <div key={post.$id}>
+                            <PostCard {...post} />
+                        </div>
+                    ))}
                 </div>
             </Container>
         </div>

@@ -1,1 +1,150 @@
 @import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+	html {
+		scroll-behavior: smooth;
+	}
+
+	body {
+		@apply bg-[#ede7dc] text-slate-900 antialiased;
+		font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+	}
+
+	html.dark body {
+		@apply bg-slate-950 text-slate-100;
+	}
+
+	::selection {
+		background: rgba(217, 119, 6, 0.22);
+		color: #0f172a;
+	}
+
+	html.dark ::selection {
+		background: rgba(245, 158, 11, 0.35);
+		color: #f8fafc;
+	}
+}
+
+@layer components {
+	.browser-css {
+		@apply text-slate-800;
+		max-width: 70ch;
+		font-size: 1.05rem;
+		line-height: 1.85;
+	}
+
+	.browser-css h1,
+	.browser-css h2,
+	.browser-css h3,
+	.browser-css h4 {
+		@apply mt-10 mb-4 font-semibold tracking-tight text-slate-950;
+	}
+
+	.browser-css h1 {
+		@apply text-4xl sm:text-5xl;
+	}
+
+	.browser-css h2 {
+		@apply text-3xl sm:text-4xl;
+	}
+
+	.browser-css h3 {
+		@apply text-2xl sm:text-3xl;
+	}
+
+	.browser-css p + p,
+	.browser-css ul + p,
+	.browser-css p + ul,
+	.browser-css p + blockquote,
+	.browser-css blockquote + p {
+		@apply mt-6;
+	}
+
+	.browser-css p,
+	.browser-css li {
+		@apply text-[1.05rem] leading-8 text-slate-700;
+	}
+
+	.browser-css a {
+		@apply font-medium text-amber-700 underline decoration-amber-300 decoration-2 underline-offset-4;
+	}
+
+	.browser-css ul,
+	.browser-css ol {
+		@apply my-6 space-y-3 pl-6;
+	}
+
+	.browser-css ul {
+		list-style: disc;
+	}
+
+	.browser-css ol {
+		list-style: decimal;
+	}
+
+	.browser-css hr {
+		@apply my-10 border-slate-200;
+	}
+
+	.browser-css code {
+		@apply rounded-md bg-slate-100 px-1.5 py-0.5 font-mono text-[0.95em] text-slate-900;
+	}
+
+	.browser-css pre {
+		@apply my-8 overflow-x-auto rounded-3xl bg-slate-950 p-6 text-sm text-slate-100 shadow-lg;
+	}
+
+	.browser-css pre code {
+		@apply bg-transparent p-0 text-inherit;
+	}
+
+	.browser-css img {
+		@apply my-8 rounded-[1.75rem] border border-slate-200 shadow-lg;
+	}
+
+	.browser-css blockquote {
+		@apply my-8 rounded-[1.25rem] border-l-4 border-amber-300 bg-amber-50/70 px-6 py-5 text-slate-700;
+	}
+
+	html.dark .browser-css {
+		@apply text-slate-300;
+	}
+
+	html.dark .browser-css h1,
+	html.dark .browser-css h2,
+	html.dark .browser-css h3,
+	html.dark .browser-css h4 {
+		@apply text-slate-50;
+	}
+
+	html.dark .browser-css p,
+	html.dark .browser-css li {
+		@apply text-slate-300;
+	}
+
+	html.dark .browser-css a {
+		@apply text-amber-300 decoration-amber-400;
+	}
+
+	html.dark .browser-css hr {
+		@apply border-slate-700;
+	}
+
+	html.dark .browser-css code {
+		@apply bg-slate-800 text-slate-100;
+	}
+
+	html.dark .browser-css pre {
+		@apply bg-slate-950 text-slate-100;
+	}
+
+	html.dark .browser-css img {
+		@apply border-slate-700;
+	}
+
+	html.dark .browser-css blockquote {
+		@apply border-amber-400 bg-amber-500/10 text-slate-200;
+	}
+}
