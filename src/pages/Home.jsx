@@ -24,13 +24,13 @@ function Home() {
                         <div className="relative overflow-hidden rounded-[2.25rem] border border-white/70 bg-[linear-gradient(135deg,rgba(255,255,255,0.96),rgba(255,249,240,0.88))] p-6 shadow-[0_24px_70px_rgba(15,23,42,0.10)] backdrop-blur-sm sm:p-8 lg:p-10 dark:border-slate-800 dark:bg-[linear-gradient(135deg,rgba(15,23,42,0.92),rgba(2,6,23,0.95))] dark:shadow-[0_24px_70px_rgba(0,0,0,0.4)]">
                             <div className="absolute inset-x-8 top-8 h-px bg-linear-to-r from-transparent via-amber-300/70 to-transparent dark:via-amber-400/70" />
                             <div className="inline-flex rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.28em] text-amber-800 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-300">
-                                The PUB Journal
+                                Write. Publish. Share.
                             </div>
                             <h1 className="mt-6 max-w-2xl text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl lg:text-6xl dark:text-slate-50">
-                                A cheerful reading home for new visitors and returning writers.
+                                PUB is the clean, distraction-free blogging platform built for writers who just want to write.
                             </h1>
                             <p className="mt-5 max-w-2xl text-base leading-8 text-slate-600 sm:text-lg dark:text-slate-300">
-                                Discover a blog platform built like a small publication: clean story cards, focused writing tools, and a calm reading experience that makes browsing feel welcoming.
+                                Start with a clear idea, publish without friction, and share stories from a focused space that keeps attention on the writing.
                             </p>
                             <div className="mt-8 flex flex-wrap gap-3">
                                 <Link
