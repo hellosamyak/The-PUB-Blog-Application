@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router";
 import appwriteService from "../appwrite/config";
+import type { BlogPostRow } from "../appwrite/config";
 import { Button, Container } from "../components";
 import parse from "html-react-parser";
 import { useSelector } from "react-redux";
+import type { RootState } from "../store/store";
 
 export default function Post() {
-    const [post, setPost] = useState(null);
+    const [post, setPost] = useState<BlogPostRow | null>(null);
     const { slug } = useParams();
     const navigate = useNavigate();
 
-    const userData = useSelector((state) => state.auth.userData);
+    const userData = useSelector((state: RootState) => state.auth.userData);
 
     const isAuthor = post && userData ? post.userId === userData.$id : false;
 
@@ -24,6 +26,7 @@ export default function Post() {
     }, [slug, navigate]);
 
     const deletePost = () => {
+        if (!post) return;
         appwriteService.deletePost(post.$id).then((status) => {
             if (status) {
                 appwriteService.deleteFile(post.featuredImage);

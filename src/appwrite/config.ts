@@ -1,10 +1,35 @@
 import conf from "../conf/conf";
-import { Client, ID, TablesDB, Storage, Query } from "appwrite";
+import { Client, ID, TablesDB, Storage, Query, type Models } from "appwrite";
+
+export interface PostData {
+  title: string;
+  slug: string;
+  content: string;
+  featuredImage: string | undefined;
+  status: string;
+  userId: string;
+}
+
+export interface PostUpdate {
+  title: string;
+  content: string;
+  featuredImage: string | undefined;
+  status: string;
+}
+
+export interface BlogPostRow extends Models.Row {
+  title: string;
+  content: string;
+  featuredImage: string;
+  status: string;
+  userId: string;
+  slug?: string;
+}
 
 export class DBService {
   client = new Client();
-  databases;
-  bucket;
+  databases: TablesDB;
+  bucket: Storage;
 
   constructor() {
     this.client
@@ -14,9 +39,16 @@ export class DBService {
     this.bucket = new Storage(this.client);
   }
 
-  async createPost({ title, slug, content, featuredImage, status, userId }) {
+  async createPost({
+    title,
+    slug,
+    content,
+    featuredImage,
+    status,
+    userId,
+  }: PostData): Promise<Models.Row | undefined> {
     try {
-      return await this.databases.createRow({
+      return await this.databases.createRow<BlogPostRow>({
         databaseId: conf.appwriteDatabaseId,
         tableId: conf.appwriteTableId,
         rowId: slug,
@@ -27,9 +59,12 @@ export class DBService {
     }
   }
 
-  async updatePost(slug, { title, content, featuredImage, status }) {
+  async updatePost(
+    slug: string,
+    { title, content, featuredImage, status }: PostUpdate,
+  ): Promise<Models.Row | undefined> {
     try {
-      return await this.databases.updateRow({
+      return await this.databases.updateRow<BlogPostRow>({
         databaseId: conf.appwriteDatabaseId,
         tableId: conf.appwriteTableId,
         rowId: slug,
@@ -40,7 +75,7 @@ export class DBService {
     }
   }
 
-  async deletePost(slug) {
+  async deletePost(slug: string): Promise<boolean> {
     try {
       await this.databases.deleteRow({
         databaseId: conf.appwriteDatabaseId,
@@ -54,9 +89,9 @@ export class DBService {
     }
   }
 
-  async getPost(slug) {
+  async getPost(slug: string): Promise<BlogPostRow | false> {
     try {
-      return await this.databases.getRow({
+      return await this.databases.getRow<BlogPostRow>({
         databaseId: conf.appwriteDatabaseId,
         tableId: conf.appwriteTableId,
         rowId: slug,
@@ -67,9 +102,11 @@ export class DBService {
     }
   }
 
-  async getPosts(queries = [Query.equal("status", "active")]) {
+  async getPosts(
+    queries: string[] = [Query.equal("status", "active")],
+  ): Promise<Models.RowList<BlogPostRow> | false> {
     try {
-      return await this.databases.listRows({
+      return await this.databases.listRows<BlogPostRow>({
         databaseId: conf.appwriteDatabaseId,
         tableId: conf.appwriteTableId,
         queries,
@@ -82,7 +119,7 @@ export class DBService {
 
   // file upload service
 
-  async uploadFile(file) {
+  async uploadFile(file: File): Promise<Models.File | false> {
     try {
       return await this.bucket.createFile({
         bucketId: conf.appwriteBucketId,
@@ -95,7 +132,7 @@ export class DBService {
     }
   }
 
-  async deleteFile(fileID) {
+  async deleteFile(fileID: string): Promise<boolean> {
     try {
       await this.bucket.deleteFile({
         bucketId: conf.appwriteBucketId,
@@ -108,7 +145,7 @@ export class DBService {
     }
   }
 
-  getFilePreview(fileID) {
+  getFilePreview(fileID: string): string {
     return this.bucket.getFileView({
       bucketId: conf.appwriteBucketId,
       fileId: fileID,

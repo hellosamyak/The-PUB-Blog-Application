@@ -4,15 +4,21 @@ import { login as authLogin } from "../store/authSlice";
 import { Button, Input, Logo } from "./index";
 import { useDispatch } from "react-redux";
 import authService from "../appwrite/auth";
-import { useForm } from "react-hook-form";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import type { AppDispatch } from "../store/store";
+
+interface LoginFormData {
+  email: string;
+  password: string;
+}
 
 function Login() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { register, handleSubmit } = useForm();
+  const dispatch = useDispatch<AppDispatch>();
+  const { register, handleSubmit } = useForm<LoginFormData>();
   const [error, setError] = useState("");
 
-  const login = async (data) => {
+  const login: SubmitHandler<LoginFormData> = async (data) => {
     setError("");
     try {
       const session = await authService.login(data);
@@ -22,7 +28,7 @@ function Login() {
         navigate("/");
       }
     } catch (error) {
-      setError(error.message);
+      setError(error instanceof Error ? error.message : String(error));
     }
   };
 

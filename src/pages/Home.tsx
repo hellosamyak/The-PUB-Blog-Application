@@ -3,10 +3,12 @@ import { Link } from 'react-router'
 import { useSelector } from 'react-redux'
 import { Container, PostCard } from '../components'
 import appwriteService from '../appwrite/config'
+import type { BlogPostRow } from '../appwrite/config'
+import type { RootState } from '../store/store'
 
 function Home() {
-    const [posts, setPosts] = useState([])
-    const authStatus = useSelector((state) => state.auth.status)
+    const [posts, setPosts] = useState<BlogPostRow[]>([])
+    const authStatus = useSelector((state: RootState) => state.auth.status)
 
     useEffect(() => {
         appwriteService.getPosts().then((posts) => {

@@ -1,3 +1,11 @@
+import type { ButtonHTMLAttributes, ReactNode } from "react";
+
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  children: ReactNode;
+  bgColor?: string;
+  textColor?: string;
+}
+
 export default function Button({
   children,
   type = "button",
@@ -5,7 +13,7 @@ export default function Button({
   textColor = "text-white",
   className = "",
   ...props
-}) {
+}: ButtonProps) {
   return (
     <button
       type={type}

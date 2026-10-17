@@ -1,10 +1,19 @@
 /* eslint-disable no-useless-catch */
 import conf from "../conf/conf";
-import { Client, Account, ID } from "appwrite";
+import { Client, Account, ID, type Models } from "appwrite";
+
+interface AccountCredentials {
+  email: string;
+  password: string;
+}
+
+interface CreateAccountCredentials extends AccountCredentials {
+  name: string;
+}
 
 export class AuthService {
   client = new Client();
-  account;
+  account: Account;
 
   constructor() {
     this.client
@@ -13,7 +22,11 @@ export class AuthService {
     this.account = new Account(this.client);
   }
 
-  async createAccount({ email, password, name }) {
+  async createAccount({
+    email,
+    password,
+    name,
+  }: CreateAccountCredentials): Promise<Models.Session | Models.User> {
     try {
       const userAccount = await this.account.create(
         ID.unique(),
@@ -32,7 +45,10 @@ export class AuthService {
     }
   }
 
-  async login({ email, password }) {
+  async login({
+    email,
+    password,
+  }: AccountCredentials): Promise<Models.Session> {
     try {
       return await this.account.createEmailPasswordSession(email, password);
     } catch (error) {
@@ -40,7 +56,7 @@ export class AuthService {
     }
   }
 
-  async getCurrentUser() {
+  async getCurrentUser(): Promise<Models.User | null> {
     try {
       return await this.account.get();
     } catch (error) {
@@ -50,7 +66,7 @@ export class AuthService {
     return null;
   }
 
-  async logout() {
+  async logout(): Promise<void> {
     try {
       await this.account.deleteSessions();
     } catch (error) {

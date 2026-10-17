@@ -1,13 +1,30 @@
 import { useCallback, useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch, type SubmitHandler } from "react-hook-form";
 import { Button, Input, Select, RTE } from "../index";
-import appwriteService from "../../appwrite/config";
+import appwriteService, {
+    type BlogPostRow,
+    type PostData,
+    type PostUpdate,
+} from "../../appwrite/config";
 import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
+import type { RootState } from "../../store/store";
 
-function PostForm({ post }) {
-    const { register, handleSubmit, watch, setValue, control, getValues } =
-        useForm({
+interface PostFormData {
+    title: string;
+    content: string;
+    status: string;
+    slug: string;
+    image?: FileList;
+}
+
+interface PostFormProps {
+    post?: BlogPostRow;
+}
+
+function PostForm({ post }: PostFormProps) {
+    const { register, handleSubmit, setValue, control, getValues } =
+        useForm<PostFormData>({
             defaultValues: {
                 title: post?.title || "",
                 content: post?.content || "",
@@ -17,9 +34,10 @@ function PostForm({ post }) {
         });
 
     const navigate = useNavigate();
-    const userData = useSelector((state) => state.auth.userData);
+    const userData = useSelector((state: RootState) => state.auth.userData);
+    const title = useWatch({ control, name: "title" });
 
-    const submit = async (data) => {
+    const submit: SubmitHandler<PostFormData> = async (data) => {
         const file = data.image?.[0]
             ? await appwriteService.uploadFile(data.image[0])
             : null;
@@ -31,21 +49,28 @@ function PostForm({ post }) {
         const featuredImage = file ? file.$id : post?.featuredImage;
 
         if (post) {
-            const dbPost = await appwriteService.updatePost(post.$id, {
-                ...data,
+            const updateData: PostUpdate = {
+                title: data.title,
+                content: data.content,
+                status: data.status,
                 featuredImage,
-            });
+            };
+            const dbPost = await appwriteService.updatePost(post.$id, updateData);
 
             if (dbPost) {
                 navigate(`/post/${dbPost.$id}`);
             }
         } else {
             // console.log("Submitting with userId:", userData?.$id);
-            const dbPost = await appwriteService.createPost({
-                ...data,
+            const createData: PostData = {
+                title: data.title,
+                slug: data.slug,
+                content: data.content,
+                status: data.status,
                 featuredImage,
                 userId: userData.$id,
-            });
+            };
+            const dbPost = await appwriteService.createPost(createData);
 
             if (dbPost) {
                 navigate(`/post/${dbPost.$id}`);
@@ -53,7 +78,7 @@ function PostForm({ post }) {
         }
     };
 
-    const slugTransform = useCallback((value) => {
+    const slugTransform = useCallback((value: string) => {
         if (value && typeof value === "string")
             return value
                 .trim()
@@ -66,16 +91,8 @@ function PostForm({ post }) {
     }, []);
 
     useEffect(() => {
-        const subscription = watch((value, { name }) => {
-            if (name === "title") {
-                setValue("slug", slugTransform(value.title, { shouldValidate: true }));
-            }
-        });
-
-        return () => {
-            subscription.unsubscribe();
-        };
-    }, [watch, slugTransform, setValue]);
+        setValue("slug", slugTransform(title || ""), { shouldValidate: true });
+    }, [slugTransform, title, setValue]);
 
     return (
         <form onSubmit={handleSubmit(submit)} className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[minmax(0,1.6fr)_minmax(320px,0.9fr)]">

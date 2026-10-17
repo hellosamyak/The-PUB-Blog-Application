@@ -1,6 +1,14 @@
-import { useId, forwardRef } from "react";
+import { useId, forwardRef, type SelectHTMLAttributes } from "react";
 
-function Select({ options, label, className, ...props }, ref) {
+interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
+  options?: string[];
+  label?: string;
+}
+
+const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select(
+  { options, label, className, ...props },
+  ref,
+) {
   const id = useId();
   return (
     <div className="w-full">
@@ -23,6 +31,6 @@ function Select({ options, label, className, ...props }, ref) {
       </select>
     </div>
   );
-}
+});
 
-export default forwardRef(Select);
+export default Select;

@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
 import { Container, PostForm } from '../components'
 import appwriteService from '../appwrite/config'
+import type { BlogPostRow } from '../appwrite/config'
 import { useParams, useNavigate } from 'react-router'
 
 function EditPost() {
-    const [post, setPost] = useState(null)
+    const [post, setPost] = useState<BlogPostRow | null>(null)
     const { slug } = useParams()
     const navigate = useNavigate()
 

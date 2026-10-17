@@ -4,15 +4,22 @@ import { login } from "../store/authSlice";
 import { Button, Input, Logo } from "./index";
 import { useDispatch } from "react-redux";
 import authService from "../appwrite/auth";
-import { useForm } from "react-hook-form";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import type { AppDispatch } from "../store/store";
+
+interface SignupFormData {
+  name: string;
+  email: string;
+  password: string;
+}
 
 function Signup() {
   const navigate = useNavigate();
   const [error, setError] = useState("");
-  const dispatch = useDispatch();
-  const { register, handleSubmit } = useForm();
+  const dispatch = useDispatch<AppDispatch>();
+  const { register, handleSubmit } = useForm<SignupFormData>();
 
-  const create = async (data) => {
+  const create: SubmitHandler<SignupFormData> = async (data) => {
     setError("");
     try {
       const userData = await authService.createAccount(data);
@@ -22,7 +29,7 @@ function Signup() {
         navigate("/");
       }
     } catch (error) {
-      setError(error.message);
+      setError(error instanceof Error ? error.message : String(error));
     }
   };
 
