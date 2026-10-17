@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import type { AppDispatch } from "./store/store";
 import authService from "./appwrite/auth";
 import { login, logout } from "./store/authSlice";
 import { Header, Footer } from "./components/index";
@@ -11,7 +12,7 @@ function App() {
     if (typeof window === "undefined") return "light";
     return window.localStorage.getItem("pub-theme") || "light";
   });
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     authService
@@ -37,7 +38,7 @@ function App() {
   };
 
   return !loading ? (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(217,119,6,0.18),_transparent_30%),linear-gradient(180deg,#f8f3ea_0%,#f3efe7_42%,#ede7dc_100%)] text-slate-900 dark:bg-[radial-gradient(circle_at_top,_rgba(245,158,11,0.16),_transparent_28%),linear-gradient(180deg,#050816_0%,#0b1220_48%,#111827_100%)] dark:text-slate-100">
+    <div className="min-h-screen bg-[linear-gradient(180deg,#faf7f1_0%,#f3eee5_55%,#eee7dc_100%)] text-slate-900 dark:bg-[linear-gradient(180deg,#070b16_0%,#0b1220_55%,#111827_100%)] dark:text-slate-100">
       <div className="flex min-h-screen w-full flex-col">
         <Header theme={theme} onThemeToggle={toggleTheme} />
         <main className="flex-1">

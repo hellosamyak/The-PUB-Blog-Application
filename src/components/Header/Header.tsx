@@ -2,9 +2,15 @@ import { useState } from "react";
 import { Container, Logo, LogoutBtn } from "../index";
 import { Link, useNavigate } from "react-router";
 import { useSelector } from "react-redux";
+import type { RootState } from "../../store/store";
 
-function Header({ theme = "light", onThemeToggle }) {
-  const authStatus = useSelector((state) => state.auth.status);
+interface HeaderProps {
+  theme?: string;
+  onThemeToggle: () => void;
+}
+
+function Header({ theme = "light", onThemeToggle }: HeaderProps) {
+  const authStatus = useSelector((state: RootState) => state.auth.status);
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -37,17 +43,22 @@ function Header({ theme = "light", onThemeToggle }) {
   ];
 
   const menuButtonClassName =
-    "inline-flex items-center justify-center rounded-full border border-slate-200 bg-white/80 px-4 py-2 text-sm font-medium text-slate-700 transition duration-200 hover:-translate-y-0.5 hover:border-amber-300 hover:bg-white hover:text-slate-950 dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-200 dark:hover:border-amber-400 dark:hover:bg-slate-800 dark:hover:text-white";
+    "inline-flex items-center justify-center rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition duration-200 hover:bg-amber-50 hover:text-amber-800 dark:text-slate-300 dark:hover:bg-amber-400/10 dark:hover:text-amber-300";
 
   return (
-    <header className="sticky top-0 z-40 border-b border-white/60 bg-[rgba(248,243,234,0.82)] shadow-[0_10px_30px_rgba(15,23,42,0.06)] backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/85 dark:shadow-[0_10px_30px_rgba(0,0,0,0.35)]">
+    <header className="sticky top-0 z-40 border-b border-slate-200/70 bg-[#f8f3ea]/85 backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/85">
       <Container>
-        <nav className="relative flex items-center gap-3 py-4 md:gap-4">
+        <nav className="relative flex items-center gap-3 py-3 md:gap-6">
           <div className="shrink-0">
             <Link to="/" onClick={() => setMenuOpen(false)}>
-              <Logo width="96px" />
+              <Logo width="86px" />
             </Link>
           </div>
+
+          <span className="hidden h-5 w-px bg-slate-300 md:block dark:bg-slate-700" />
+          <p className="hidden text-xs font-semibold uppercase tracking-[0.28em] text-slate-500 lg:block dark:text-slate-400">
+            Stories worth sharing
+          </p>
 
           <div className="ml-auto flex items-center gap-2 md:gap-3">
             <button
@@ -56,7 +67,7 @@ function Header({ theme = "light", onThemeToggle }) {
               aria-pressed={theme === "dark"}
               aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
               title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white/80 text-slate-700 transition duration-200 hover:-translate-y-0.5 hover:border-amber-300 hover:bg-white hover:text-slate-950 dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-200 dark:hover:border-amber-400 dark:hover:bg-slate-800 dark:hover:text-white"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white/70 text-slate-600 transition duration-200 hover:border-amber-300 hover:bg-white hover:text-amber-800 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300 dark:hover:border-amber-400 dark:hover:bg-slate-800 dark:hover:text-amber-300"
             >
               {theme === "dark" ? (
                 <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" className="h-5 w-5">
@@ -76,7 +87,7 @@ function Header({ theme = "light", onThemeToggle }) {
               aria-expanded={menuOpen}
               aria-controls="mobile-header-menu"
               aria-label={menuOpen ? "Close menu" : "Open menu"}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white/80 text-slate-700 transition duration-200 hover:-translate-y-0.5 hover:border-amber-300 hover:bg-white hover:text-slate-950 dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-200 dark:hover:border-amber-400 dark:hover:bg-slate-800 dark:hover:text-white md:hidden"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white/70 text-slate-600 transition duration-200 hover:border-amber-300 hover:bg-white hover:text-amber-800 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300 dark:hover:border-amber-400 dark:hover:bg-slate-800 dark:hover:text-amber-300 md:hidden"
             >
               {menuOpen ? (
                 <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" className="h-5 w-5">
@@ -90,7 +101,7 @@ function Header({ theme = "light", onThemeToggle }) {
             </button>
           </div>
 
-          <div className="hidden md:flex md:flex-wrap md:items-center md:justify-end md:gap-3">
+          <div className="hidden md:flex md:flex-wrap md:items-center md:justify-end md:gap-1">
             {navItems.map((item) =>
               item.active ? (
                 <button key={item.name} onClick={() => navigate(item.slug)} className={menuButtonClassName}>
@@ -104,7 +115,7 @@ function Header({ theme = "light", onThemeToggle }) {
           {menuOpen && (
             <div
               id="mobile-header-menu"
-              className="absolute left-0 right-0 top-full mt-3 rounded-[1.5rem] border border-white/70 bg-white/95 p-4 shadow-[0_20px_50px_rgba(15,23,42,0.12)] backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/95 dark:shadow-[0_20px_50px_rgba(0,0,0,0.35)] md:hidden"
+              className="absolute left-0 right-0 top-full mt-3 rounded-3xl border border-white/70 bg-white/95 p-4 shadow-[0_20px_50px_rgba(15,23,42,0.12)] backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/95 dark:shadow-[0_20px_50px_rgba(0,0,0,0.35)] md:hidden"
             >
               <div className="flex flex-col gap-2">
                 {navItems.map((item) =>
