@@ -11,12 +11,14 @@ interface PostCardProps {
 function PostCard({ $id, title, featuredImage }: PostCardProps) {
   return (
     <Link to={`/post/${$id}`}>
-      <div className="group flex h-full flex-col overflow-hidden rounded-3xl border border-slate-200/80 bg-white/80 shadow-[0_12px_34px_rgba(15,23,42,0.07)] backdrop-blur transition duration-300 hover:-translate-y-1.5 hover:border-amber-200 hover:shadow-[0_22px_50px_rgba(15,23,42,0.12)] dark:border-slate-800 dark:bg-slate-900/80 dark:shadow-[0_12px_40px_rgba(0,0,0,0.3)] dark:hover:border-amber-400/40">
+      <article className="group flex h-full flex-col overflow-hidden rounded-3xl border border-slate-200/80 bg-white/80 shadow-[0_12px_34px_rgba(15,23,42,0.07)] backdrop-blur transition duration-300 hover:-translate-y-1.5 hover:border-amber-200 hover:shadow-[0_22px_50px_rgba(15,23,42,0.12)] dark:border-slate-800 dark:bg-slate-900/80 dark:shadow-[0_12px_40px_rgba(0,0,0,0.3)] dark:hover:border-amber-400/40">
         <div className="aspect-4/3 overflow-hidden bg-slate-100 dark:bg-slate-800">
           {featuredImage ? (
             <img
               src={appwriteService.getFilePreview(featuredImage)}
               alt={title}
+              loading="lazy"
+              decoding="async"
               className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
             />
           ) : (
@@ -33,7 +35,7 @@ function PostCard({ $id, title, featuredImage }: PostCardProps) {
             {title}
           </h2>
         </div>
-      </div>
+      </article>
     </Link>
   );
 }

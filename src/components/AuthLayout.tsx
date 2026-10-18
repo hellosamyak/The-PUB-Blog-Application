@@ -30,5 +30,11 @@ export default function Protected({
     return () => clearTimeout(timer);
   }, [authStatus, navigate, authentication]);
 
-  return loader ? <h1>Loading...</h1> : <>{children}</>;
+  return loader ? (
+    <div role="status" aria-live="polite" className="p-8 text-center">
+      Loading...
+    </div>
+  ) : (
+    <>{children}</>
+  );
 }

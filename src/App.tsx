@@ -3,7 +3,8 @@ import { useDispatch } from "react-redux";
 import type { AppDispatch } from "./store/store";
 import authService from "./appwrite/auth";
 import { login, logout } from "./store/authSlice";
-import { Header, Footer } from "./components/index";
+import Header from "./components/Header/Header";
+import Footer from "./components/Footer/Footer";
 import { Outlet } from "react-router";
 
 function App() {
@@ -40,8 +41,9 @@ function App() {
   return !loading ? (
     <div className="min-h-screen bg-[linear-gradient(180deg,#faf7f1_0%,#f3eee5_55%,#eee7dc_100%)] text-slate-900 dark:bg-[linear-gradient(180deg,#070b16_0%,#0b1220_55%,#111827_100%)] dark:text-slate-100">
       <div className="flex min-h-screen w-full flex-col">
+        <a className="skip-link" href="#main-content">Skip to main content</a>
         <Header theme={theme} onThemeToggle={toggleTheme} />
-        <main className="flex-1">
+        <main id="main-content" className="flex-1" tabIndex={-1}>
           <Outlet />
         </main>
         <Footer />

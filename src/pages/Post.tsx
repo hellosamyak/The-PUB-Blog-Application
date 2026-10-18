@@ -43,6 +43,9 @@ export default function Post() {
                         <img
                             src={appwriteService.getFilePreview(post.featuredImage)}
                             alt={post.title}
+                            width={1200}
+                            height={800}
+                            fetchPriority="high"
                             className="max-h-[34rem] w-full rounded-3xl object-cover"
                         />
 

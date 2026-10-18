@@ -1,17 +1,21 @@
-import { StrictMode } from "react";
+/* eslint-disable react-refresh/only-export-components */
+import { lazy, Suspense, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import { Provider } from "react-redux";
 import store from "./store/store";
 import { createBrowserRouter, RouterProvider } from "react-router";
-import { AuthLayout, Login } from "./components";
-import Home from "./pages/Home"
-import AddPost from "./pages/AddPost";
-import Signup from './pages/Signup'
-import EditPost from "./pages/EditPost";
-import Post from "./pages/Post";
-import AllPosts from "./pages/AllPosts";
+import AuthLayout from "./components/AuthLayout";
+
+const Home = lazy(() => import("./pages/Home"));
+const Login = lazy(() => import("./components/Login"));
+const Signup = lazy(() => import("./components/Signup"));
+const AddPost = lazy(() => import("./pages/AddPost"));
+const EditPost = lazy(() => import("./pages/EditPost"));
+const Post = lazy(() => import("./pages/Post"));
+const AllPosts = lazy(() => import("./pages/AllPosts"));
+
 
 const router = createBrowserRouter([
   {
@@ -76,7 +80,9 @@ const router = createBrowserRouter([
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
-      <RouterProvider router={router} />
+      <Suspense fallback={<div role="status" aria-live="polite" className="p-8 text-center">Loading page...</div>}>
+        <RouterProvider router={router} />
+      </Suspense>
     </Provider>
   </StrictMode>,
 );

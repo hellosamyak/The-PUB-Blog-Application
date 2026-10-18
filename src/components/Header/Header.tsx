@@ -1,6 +1,8 @@
-import { useState } from "react";
-import { Container, Logo, LogoutBtn } from "../index";
-import { Link, useNavigate } from "react-router";
+import { useEffect, useState } from "react";
+import Container from "../Container/Container";
+import Logo from "../Logo";
+import LogoutBtn from "./LogoutBtn";
+import { Link } from "react-router";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../store/store";
 
@@ -11,8 +13,16 @@ interface HeaderProps {
 
 function Header({ theme = "light", onThemeToggle }: HeaderProps) {
   const authStatus = useSelector((state: RootState) => state.auth.status);
-  const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMenuOpen(false);
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [menuOpen]);
 
   const navItems = [
     {
@@ -48,7 +58,7 @@ function Header({ theme = "light", onThemeToggle }: HeaderProps) {
   return (
     <header className="sticky top-0 z-40 border-b border-slate-200/70 bg-[#f8f3ea]/85 backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/85">
       <Container>
-        <nav className="relative flex items-center gap-3 py-3 md:gap-6">
+        <nav aria-label="Primary navigation" className="relative flex items-center gap-3 py-3 md:gap-6">
           <div className="shrink-0">
             <Link to="/" onClick={() => setMenuOpen(false)}>
               <Logo width="86px" />
@@ -104,9 +114,9 @@ function Header({ theme = "light", onThemeToggle }: HeaderProps) {
           <div className="hidden md:flex md:flex-wrap md:items-center md:justify-end md:gap-1">
             {navItems.map((item) =>
               item.active ? (
-                <button key={item.name} onClick={() => navigate(item.slug)} className={menuButtonClassName}>
+                <Link key={item.name} to={item.slug} className={menuButtonClassName}>
                   {item.name}
-                </button>
+                </Link>
               ) : null,
             )}
             {authStatus && <LogoutBtn />}
@@ -120,16 +130,14 @@ function Header({ theme = "light", onThemeToggle }: HeaderProps) {
               <div className="flex flex-col gap-2">
                 {navItems.map((item) =>
                   item.active ? (
-                    <button
+                    <Link
                       key={item.name}
-                      onClick={() => {
-                        navigate(item.slug);
-                        setMenuOpen(false);
-                      }}
+                      to={item.slug}
+                      onClick={() => setMenuOpen(false)}
                       className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-left text-sm font-medium text-slate-700 transition hover:border-amber-300 hover:bg-white hover:text-slate-950 dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-200 dark:hover:border-amber-400 dark:hover:bg-slate-800 dark:hover:text-white"
                     >
                       {item.name}
-                    </button>
+                    </Link>
                   ) : null,
                 )}
                 {authStatus && (

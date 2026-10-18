@@ -7,6 +7,8 @@ function Logo({ width = "100px" }: LogoProps) {
     <img
       src="/logo.png"
       alt="The PUB"
+      width={100}
+      height={42}
       style={{ width }}
       className="block h-auto object-contain"
     />

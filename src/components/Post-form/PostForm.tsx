@@ -1,6 +1,9 @@
 import { useCallback, useEffect } from "react";
 import { useForm, useWatch, type SubmitHandler } from "react-hook-form";
-import { Button, Input, Select, RTE } from "../index";
+import Button from "../Button";
+import Input from "../Input";
+import Select from "../Select";
+import RTE from "../RTE";
 import appwriteService, {
     type BlogPostRow,
     type PostData,
@@ -134,6 +137,10 @@ function PostForm({ post }: PostFormProps) {
                         <img
                             src={appwriteService.getFilePreview(post.featuredImage)}
                             alt={post.title}
+                            width={800}
+                            height={533}
+                            loading="lazy"
+                            decoding="async"
                             className="w-full object-cover"
                         />
                     </div>

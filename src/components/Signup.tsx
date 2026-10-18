@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { login } from "../store/authSlice";
-import { Button, Input, Logo } from "./index";
+import Button from "./Button";
+import Input from "./Input";
+import Logo from "./Logo";
 import { useDispatch } from "react-redux";
 import authService from "../appwrite/auth";
 import { useForm, type SubmitHandler } from "react-hook-form";
@@ -41,9 +43,9 @@ function Signup() {
             <Logo width="100%" />
           </span>
         </div>
-        <h2 className="text-center text-3xl font-semibold tracking-tight text-slate-950 dark:text-slate-100">
+        <h1 className="text-center text-3xl font-semibold tracking-tight text-slate-950 dark:text-slate-100">
           Sign up to create account
-        </h2>
+        </h1>
         <p className="mt-3 text-center text-sm text-slate-600 sm:text-base dark:text-slate-300">
           Already have an account?&nbsp;
           <Link
