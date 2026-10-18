@@ -120,6 +120,27 @@ Preview production build locally:
 npm run preview
 ```
 
+Run end-to-end tests:
+
+```bash
+npm run test:e2e
+```
+
+The Playwright suite starts Vite automatically and uses a local mocked Appwrite
+endpoint, so public navigation and authentication guard tests do not require
+Appwrite credentials or modify remote data. Install the Chromium browser once
+before the first run:
+
+```bash
+npx playwright install chromium
+```
+
+Use Playwright's interactive test runner while developing:
+
+```bash
+npm run test:e2e:ui
+```
+
 ## Appwrite Integration Notes
 
 - Authentication and database calls are in `src/appwrite/`. Ensure your Appwrite project has the appropriate database collections and permissions for public read or user-scoped access as the app expects.
